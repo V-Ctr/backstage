@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { Entity } from '@backstage/catalog-model';
 import {
   Box,
   Checkbox,
@@ -30,6 +29,7 @@ import { Autocomplete } from '@material-ui/lab';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useEntityList } from '../../hooks/useEntityListProvider';
 import { EntityLifecycleFilter } from '../../filters';
+import { useEntityFilter } from '../../hooks';
 
 /** @public */
 export type CatalogReactEntityLifecyclePickerClassKey = 'input';
@@ -50,9 +50,9 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 export const EntityLifecyclePicker = (props: { initialFilter?: string[] }) => {
   const { initialFilter = [] } = props;
   const classes = useStyles();
+
   const {
     updateFilters,
-    backendEntities,
     filters,
     queryParameters: { lifecycles: lifecyclesParameter },
   } = useEntityList();
@@ -76,28 +76,26 @@ export const EntityLifecyclePicker = (props: { initialFilter?: string[] }) => {
     }
   }, [queryParamLifecycles]);
 
-  const availableLifecycles = useMemo(
-    () =>
-      [
-        ...new Set(
-          backendEntities
-            .map((e: Entity) => e.spec?.lifecycle)
-            .filter(Boolean) as string[],
-        ),
-      ].sort(),
-    [backendEntities],
-  );
+  useEffect(() => {
+    updateFilters({
+      lifecycles: selectedLifecycles.length
+        ? new EntityLifecycleFilter(selectedLifecycles)
+        : undefined,
+    });
+  }, [selectedLifecycles, updateFilters]);
+
+  const availableLifecycles = useEntityFilter('spec.lifecycle'); // ?.map(({ value }) => value) ?? [];
 
   useEffect(() => {
     updateFilters({
       lifecycles:
-        selectedLifecycles.length && availableLifecycles.length
+        selectedLifecycles.length && availableLifecycles?.length
           ? new EntityLifecycleFilter(selectedLifecycles)
           : undefined,
     });
   }, [selectedLifecycles, updateFilters, availableLifecycles]);
 
-  if (!availableLifecycles.length) return null;
+  if (!availableLifecycles?.length) return null;
 
   return (
     <Box pb={1} pt={1}>
@@ -105,7 +103,7 @@ export const EntityLifecyclePicker = (props: { initialFilter?: string[] }) => {
         Lifecycle
         <Autocomplete
           multiple
-          options={availableLifecycles}
+          options={availableLifecycles?.map(({ value }) => value) ?? []}
           value={selectedLifecycles}
           onChange={(_: object, value: string[]) =>
             setSelectedLifecycles(value)

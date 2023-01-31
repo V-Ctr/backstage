@@ -29,9 +29,7 @@ import { Autocomplete } from '@material-ui/lab';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useEntityList } from '../../hooks/useEntityListProvider';
 import { EntityTagFilter } from '../../filters';
-import { useApi } from '@backstage/core-plugin-api';
-import useAsync from 'react-use/lib/useAsync';
-import { catalogApiRef } from '../../api';
+import { useEntityFilter } from '../../hooks';
 
 /** @public */
 export type CatalogReactEntityTagPickerClassKey = 'input';
@@ -62,18 +60,8 @@ export const EntityTagPicker = (props: EntityTagPickerProps) => {
     queryParameters: { tags: tagsParameter },
   } = useEntityList();
 
-  const catalogApi = useApi(catalogApiRef);
-  const { value: availableTags } = useAsync(async () => {
-    const facet = 'metadata.tags';
-    const { facets } = await catalogApi.getEntityFacets({
-      facets: [facet],
-      filter: filters.kind?.getCatalogFilters(),
-    });
-
-    return Object.fromEntries(
-      facets[facet].map(({ value, count }) => [value, count]),
-    );
-  }, [filters.kind]);
+  const tags = useEntityFilter('metadata.tags');
+  const availableTags = useMemo(() => tags?.map(({ value }) => value), [tags]);
 
   const queryParamTags = useMemo(
     () => [tagsParameter].flat().filter(Boolean) as string[],
@@ -93,10 +81,9 @@ export const EntityTagPicker = (props: EntityTagPickerProps) => {
   }, [queryParamTags]);
 
   useEffect(() => {
-    const tags = Object.keys(availableTags ?? {});
     updateFilters({
       tags:
-        selectedTags.length && tags.length
+        selectedTags.length && availableTags?.length
           ? new EntityTagFilter(selectedTags)
           : undefined,
     });
@@ -110,7 +97,7 @@ export const EntityTagPicker = (props: EntityTagPickerProps) => {
         Tags
         <Autocomplete
           multiple
-          options={Object.keys(availableTags ?? {})}
+          options={availableTags ?? []}
           value={selectedTags}
           onChange={(_: object, value: string[]) => setSelectedTags(value)}
           renderOption={(option, { selected }) => (
@@ -124,7 +111,7 @@ export const EntityTagPicker = (props: EntityTagPickerProps) => {
               }
               label={
                 props.showCounts
-                  ? `${option} (${availableTags?.[option]})`
+                  ? `${option} (${availableTags?.[Number(option)]})`
                   : option
               }
             />
