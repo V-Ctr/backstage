@@ -1,5 +1,14 @@
 # example-app
 
+## 0.2.80-next.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/plugin-sentry@0.5.0-next.2
+  - @backstage/plugin-azure-sites@0.1.4-next.2
+  - @backstage/plugin-lighthouse@0.4.0-next.2
+
 ## 0.2.80-next.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @backstage/plugin-sentry
 
+## 0.5.0-next.2
+
+### Minor Changes
+
+- 6a8d6b9a0c: Add option to filter issues based on the time it was triggered
+
 ## 0.4.8-next.1
 
 ### Patch Changes
