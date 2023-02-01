@@ -250,9 +250,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@asyncapi/react-component@npm:1.0.0-next.44":
-  version: 1.0.0-next.44
-  resolution: "@asyncapi/react-component@npm:1.0.0-next.44"
+"@asyncapi/react-component@npm:1.0.0-next.46":
+  version: 1.0.0-next.46
+  resolution: "@asyncapi/react-component@npm:1.0.0-next.46"
   dependencies:
     "@asyncapi/avro-schema-parser": ^0.3.0
     "@asyncapi/openapi-schema-parser": ^2.0.0
@@ -261,12 +261,11 @@ __metadata:
     isomorphic-dompurify: ^0.13.0
     marked: ^4.0.14
     openapi-sampler: ^1.2.1
-    react-icons: ^4.4.0
     use-resize-observer: ^8.0.0
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 1d96db3bc6a4655884969a7639467836376c028df1a00f8930adf4e1b6ecb43e6a2d61df5c68e63d6c105d319fecb3f2ac0e4146274a81a874fbde17f4dbac1c
+  checksum: df5027b38d15d135b952a90e24664c0532ecd5bbb11ae3295836a58a1f864c7a36d9da6f37781f3b73f5ea8fdfb4f888dcb9267211b485ed397c928c0ca5acf5
   languageName: node
   linkType: hard
 
@@ -4413,7 +4412,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@backstage/plugin-api-docs@workspace:plugins/api-docs"
   dependencies:
-    "@asyncapi/react-component": 1.0.0-next.44
+    "@asyncapi/react-component": 1.0.0-next.46
     "@backstage/catalog-model": "workspace:^"
     "@backstage/cli": "workspace:^"
     "@backstage/core-app-api": "workspace:^"
@@ -33264,15 +33263,6 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18
   checksum: abe8ba146c313d206f99a01260457bc72af03b2c73d7bd4be5af11598140ec45ef1ef37bac64b80c4dbc298d6aa21af4caa259a133f305a04ddf583faa18e7d0
-  languageName: node
-  linkType: hard
-
-"react-icons@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "react-icons@npm:4.4.0"
-  peerDependencies:
-    react: "*"
-  checksum: dd93a1dcc8ac8a3cf46a2b33e80b586fa967331fa5fcb90d061abf276155a8363a331643e203d67cb9bab4261d00a757da854bcce1fce2c6e4258bf3e33f711b
   languageName: node
   linkType: hard
 
